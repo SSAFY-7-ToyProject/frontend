@@ -19,7 +19,7 @@ function App() {
 
         <Routes>
           <Route exact path="/" element={<PostListPage userid={"ssafy"} />} />
-          <Route exact path="/posts/:post" element={<SinglePostPage />} />
+          <Route exact path="/post/:post" element={<SinglePostPage />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/mypage" element={<MyPage />} />
