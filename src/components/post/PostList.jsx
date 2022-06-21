@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import PostItem from "./PostItem";
+import PostListItem from "./PostListItem";
 
 const tmpPosts = [
   {
@@ -42,7 +42,7 @@ export default function PostList({ userid: username }) {
   console.log("username", username);
 
   const postList = posts.map((post) => {
-    return <PostItem post={post} key={post.diaryId} />;
+    return <PostListItem post={post} key={post.diaryId} />;
   });
 
   return <ul className="post-list">{postList}</ul>;
