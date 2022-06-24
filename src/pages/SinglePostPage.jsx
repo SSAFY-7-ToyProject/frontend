@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "../components/post/Post";
+import Post from "../components/post/SinglePost";
 
 export default function SinglePostPage() {
   const post = [
@@ -11,6 +11,7 @@ export default function SinglePostPage() {
       emotion: "blue",
       secret: false,
       title: "일기의 제목입니당당당",
+      weather: "sunny",
       content:
         " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
     },

@@ -9,14 +9,21 @@ body {
   display: flex;
   justify-content: center;
   margin: 0;
+
+  -ms-overflow-style: none;
 }
 * {
   box-sizing: border-box;
 }
 .app {
   width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  /* overflow-y: scroll; */
+  background: linear-gradient(180deg, #010560 0%, #7bb6c4 100%);
+  padding: 0;
 }
 .buttons,
 .header,
@@ -27,4 +34,16 @@ body {
 }
 .header {
   height: 50px;
+}
+
+.night {
+  background: linear-gradient(180deg, #010560 0%, #7bb6c4 100%);
+}
+
+.day {
+  background: linear-gradient(180deg, #7cd0ff 0%, #f2e2ff 100%);
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

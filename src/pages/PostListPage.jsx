@@ -1,6 +1,6 @@
 import React from "react";
 import PostList from "../components/post/PostList";
 
-export default function PostListPage() {
-  return <PostList userid={"ssafy"} />;
+export default function PostListPage({ setAppClassName }) {
+  return <PostList userid={"ssafy"} setAppClassName={setAppClassName} />;
 }

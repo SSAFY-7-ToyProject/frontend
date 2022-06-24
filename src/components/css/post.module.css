@@ -1,0 +1,171 @@
+.postList {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  overflow-y: scroll;
+}
+.posts {
+  width: 70%;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.posts li:nth-child(odd) img {
+  animation: thumbnail-odd 8s ease 0s infinite normal forwards;
+}
+.posts li:nth-child(2n) img {
+  animation: thumbnail-odd 8s ease 0s infinite reverse forwards;
+}
+.item {
+  width: 33%;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather {
+  width: 15em;
+}
+
+.weather.thumbnail {
+  width: 10em;
+}
+
+.weather.post {
+  width: 40em;
+  position: relative;
+  left: -3em;
+
+  animation: weather-animation 10s cubic-bezier(0.45, 0, 0.55, 1) 0s infinite
+    normal both;
+}
+
+.diary {
+  /* border: 1px solid #fff; */
+  width: 70%;
+  height: 90vh;
+  padding: 2em;
+  display: flex;
+}
+
+.weatherArea {
+  width: 50%;
+  /* border: 1px solid #fff; */
+  display: flex;
+  align-items: center;
+}
+.contentArea {
+  /* border: 1px solid #fff; */
+  width: 50%;
+  padding: 2em 2em 2em 0;
+  display: flex;
+  align-items: center;
+}
+.textArea {
+  width: 100%;
+}
+
+.content {
+  padding: 1em;
+  border-radius: 1em;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 12px 13px 1px rgba(255, 255, 255, 0.53);
+  border-radius: 43px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes thumbnail-odd {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateY(-8px);
+  }
+
+  20%,
+  40%,
+  60% {
+    transform: translateY(8px);
+  }
+
+  80% {
+    transform: translateY(6.4px);
+  }
+
+  90% {
+    transform: translateY(-6.4px);
+  }
+}
+
+@keyframes thumbnail-even {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateY(-8px);
+  }
+
+  20%,
+  40%,
+  60% {
+    transform: translateY(8px);
+  }
+
+  80% {
+    transform: translateY(6.4px);
+  }
+
+  90% {
+    transform: translateY(-6.4px);
+  }
+}
+
+@keyframes weather-animation {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateY(-8px);
+  }
+
+  20%,
+  40%,
+  60% {
+    transform: translateY(8px);
+  }
+
+  80% {
+    transform: translateY(6.4px);
+  }
+
+  90% {
+    transform: translateY(-6.4px);
+  }
+}
