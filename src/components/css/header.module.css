@@ -1,0 +1,18 @@
+.header {
+  border-bottom: 1px solid white;
+  padding-bottom: 1em;
+  height: 5em;
+  display: flex;
+  justify-content: space-around;
+  align-content: space-between;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  margin: 0 2.5em;
+}
+
+.nav {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
