@@ -1,230 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  fetchPosts,
+  selectAllPosts,
+  selectPostById,
+  selectPostIds,
+} from "../../store/postSlice";
 import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
-const tmpPosts = [
-  {
-    diaryId: "1",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "2",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "3",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "14",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "24",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "34",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "15",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "25",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "35",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "151",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "251",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "351",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "1114",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "2566",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "357",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "1266",
-    userId: "ssafy",
-    regTime: "2022-06-01 11:32:35",
-    category: "",
-    emotion: "blue",
-    secret: false,
-    title: "일기1의 제목입니당당당",
-    weather: "sunny",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "2234",
-    userId: "ssafy",
-    regTime: "2022-06-10 11:32:35",
-    category: "",
-    emotion: "yellow",
-    secret: false,
-    title: "일기2 제목",
-    weather: "drizzle",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-  {
-    diaryId: "3346",
-    userId: "ssafy",
-    regTime: "2022-06-22 11:32:35",
-    category: "",
-    emotion: "red",
-    secret: false,
-    title: "일기 3 제목",
-    weather: "snow",
-    content:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolore dolores a recusandae rerum impedit tenetur corporis facere, iure, cupiditate quam dignissimos excepturi, iusto voluptates saepe qui enim harum debitis? ",
-  },
-];
 
-function PostListItem({ post }) {
+function PostListItem({ id }) {
+  console.log(id);
+  const post = useSelector((state) => selectPostById(state, id));
+  console.log(post);
   return (
     <li className={styles.item}>
-      <Link to={`/post/${post.diaryId}`}>
+      <Link to={`/post/${post.id}`}>
         <WeatherImg weather={post.weather} className={styles.thumbnail} />
         {/* <p>{post.regTime}</p> */}
       </Link>
@@ -232,8 +24,11 @@ function PostListItem({ post }) {
   );
 }
 export default function PostList({ userid: username, setAppClassName }) {
-  const [posts, setPosts] = useState(tmpPosts);
+  const dispatch = useDispatch();
+  const posts = useSelector(selectAllPosts);
+  const postIds = useSelector(selectPostIds);
   console.log("username", username);
+  console.log(posts);
 
   useEffect(() => {
     if (username) {
@@ -246,8 +41,12 @@ export default function PostList({ userid: username, setAppClassName }) {
     };
   }, [username]);
 
-  const postList = posts.map((post) => {
-    return <PostListItem post={post} key={post.diaryId} />;
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  const postList = postIds.map((id) => {
+    return <PostListItem id={id} key={id} />;
   });
 
   return (
