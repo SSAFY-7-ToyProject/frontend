@@ -76,8 +76,11 @@
   background: rgb(11, 159, 149);
 }
 
+.info {
+  color: blue;
+}
 .error {
-  visibility: hidden;
+  color: red;
 }
 
 .show {
