@@ -20,7 +20,7 @@ function App() {
   return (
     <Router>
       <div className={appClassName}>
-        {!main && <Header />}
+        {/* {!main && <Header />} */}
         <Routes>
           <Route exact path="/" element={<MainPage setMain={SetMain} />} />
           <Route

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import styles from "./css/page.module.css";
+import styles from "./css/MainPage.module.css";
 
 export default function MainPage({ setMain }) {
   const navigate = useNavigate();
