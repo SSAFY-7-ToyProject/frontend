@@ -1,20 +1,7 @@
 import React, { useMemo, useState } from "react";
 import styles from "./css/Signup.module.css";
+import validate from "../util/validate.js";
 
-const validate = (name, value) => {
-  console.log("검증할 값" + name, value);
-
-  switch (name) {
-    case "email":
-      return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
-    case "password":
-      return /^.{8,20}$/.test(value);
-    case "phone":
-      return /^01(?:0|1|[6-9])[.-]?(\d{3}|\d{4})[.-]?(\d{4})$/.test(value);
-    case "birth":
-      return /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/.test(value);
-  }
-};
 const NoticeMessage = React.memo(({ info, className }) => {
   console.log("calssname" + className);
   const classNames = [className, info.isError ? styles.error : ""]
@@ -24,29 +11,13 @@ const NoticeMessage = React.memo(({ info, className }) => {
 });
 
 export default function SignUp() {
-  const [username, setUsername] = useState({
-    value: "",
-    message: "이름을 입력해주세요.",
-    isError: true,
-  });
-  const [email, setEmail] = useState({
-    value: "",
-    message: "이메일을 입력해주세요.",
-    isError: true,
-  });
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birth, setBirth] = useState("");
-  const [gender, setGender] = useState("male");
-  const [info, setInfo] = useState({
-    email: "",
-    password: "",
-    password2: "",
-    phone: "",
-    birth: "",
-    gender: "",
-  });
+  const [username, setUsername] = useState({});
+  const [email, setEmail] = useState({});
+  const [password, setPassword] = useState({});
+  const [password2, setPassword2] = useState({});
+  const [phone, setPhone] = useState({});
+  const [birth, setBirth] = useState({});
+  const [gender, setGender] = useState({});
 
   const onChange = (event) => {
     const {
@@ -127,7 +98,7 @@ export default function SignUp() {
         return;
       case "gender":
         console.log(value);
-        return setGender({ value });
+        return setGender({ value, message: "", isError: false });
     }
   };
 
@@ -152,6 +123,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="username"
+              required
             />
           </div>
 
@@ -164,6 +136,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="email"
+              required
             />
 
             <small className={styles.info}>
@@ -180,6 +153,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="password"
+              required
             />
             <small className={styles.info}>
               <NoticeMessage info={password} className={styles.info} />
@@ -194,6 +168,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="password2"
+              required
             />
             <small className={styles.info}>
               <NoticeMessage info={password2} className={styles.info} />
@@ -210,6 +185,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="birth"
+              required
             />
             <small className={styles.info}>
               <NoticeMessage info={birth} className={styles.info} />
@@ -225,6 +201,7 @@ export default function SignUp() {
               className={styles.form__input}
               onChange={onChange}
               name="phone"
+              required
             />
             <small className={styles.info}>
               <NoticeMessage info={phone} className={styles.info} />
@@ -239,6 +216,7 @@ export default function SignUp() {
               name="gender"
               value="MALE"
               onChange={onChange}
+              required
             />{" "}
             남자
             <input
