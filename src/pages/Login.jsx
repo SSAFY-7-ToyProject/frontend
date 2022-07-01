@@ -1,20 +1,65 @@
-import React from "react";
-
+import React, { useState } from "react";
+import styles from "./css/SignupLogin.module.css";
 export default function Login() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const onChange = (event) => {
+    const {
+      target: { name, value },
+    } = event;
+
+    switch (name) {
+      case "email":
+        return setEmail(value);
+      case "password":
+        return setPassword(value);
+    }
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    console.log("login");
+    const form = { email, password };
+    console.log(form);
+  };
+
   return (
-    <div>
-      로그인페이지
-      <form action="">
-        <div>
-          <label htmlFor="email">email: </label>
-          <input type="text" id="email" />
-        </div>
-        <div>
-          <label htmlFor="password">password: </label>
-          <input type="password" />
-        </div>
-        <button>로그인</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.user}>
+        <header className={styles.user__header}>
+          <h1 className={styles.user__title}>로그인</h1>
+        </header>
+        <form className={styles.form}>
+          <div className={styles.form__group}>
+            <label htmlFor="email" className={styles.label}>
+              Email
+            </label>
+            <input
+              type="text"
+              className={styles.form__input}
+              name="email"
+              required
+              onChange={onChange}
+            />
+          </div>
+          <div className={styles.form__group}>
+            <label htmlFor="password" className={styles.label}>
+              password
+            </label>
+            <input
+              type="text"
+              className={styles.form__input}
+              name="password"
+              required
+              onChange={onChange}
+            />
+          </div>
+          <button className={styles.btn} onClick={onSubmit}>
+            로그인하기
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

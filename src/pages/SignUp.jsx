@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from "react";
-import styles from "./css/Signup.module.css";
+import styles from "./css/SignupLogin.module.css";
 import validate from "../util/validate.js";
 
 const NoticeMessage = React.memo(({ info, className }) => {
@@ -140,7 +140,7 @@ export default function SignUp() {
   );
 
   return (
-    <div className={styles.signup}>
+    <div className={styles.container}>
       <div className={styles.user}>
         <header className={styles.user__header}>
           <h1 className={styles.user__title}>회원 가입하기</h1>
