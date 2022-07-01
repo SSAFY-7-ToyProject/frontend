@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import styles from "./css/Signup.module.css";
 import validate from "../util/validate.js";
 
 const NoticeMessage = React.memo(({ info, className }) => {
-  console.log("calssname" + className);
   const classNames = [className, info.isError ? styles.error : ""]
     .join(" ")
     .trim();
@@ -11,13 +10,17 @@ const NoticeMessage = React.memo(({ info, className }) => {
 });
 
 export default function SignUp() {
-  const [username, setUsername] = useState({});
-  const [email, setEmail] = useState({});
-  const [password, setPassword] = useState({});
-  const [password2, setPassword2] = useState({});
-  const [phone, setPhone] = useState({});
-  const [birth, setBirth] = useState({});
-  const [gender, setGender] = useState({});
+  const [username, setUsername] = useState({ isError: true });
+  const [email, setEmail] = useState({ isError: true });
+  const [password, setPassword] = useState({ isError: true });
+  const [password2, setPassword2] = useState({ isError: true });
+  const [phone, setPhone] = useState({ isError: true });
+  const [birth, setBirth] = useState({ isError: true });
+  const [gender, setGender] = useState({ isError: true });
+  const [error, setError] = useState({
+    isError: true,
+    message: "",
+  });
 
   const onChange = (event) => {
     const {
@@ -25,13 +28,11 @@ export default function SignUp() {
     } = event;
     switch (name) {
       case "username":
-        return setUsername({ ...username, value });
+        return setUsername({ value, message: "", isError: false });
       case "email":
-        // setEmail(value);
-        console.log(validate(name, value));
         if (!validate(name, value)) {
           setEmail({
-            ...email,
+            value,
             message: "올바른 이메일 형식으로 작성해주세요",
             isError: true,
           });
@@ -44,6 +45,7 @@ export default function SignUp() {
         }
         return;
       case "password":
+        console.log("password", name, value);
         if (!validate(name, value)) {
           setPassword({
             value,
@@ -102,9 +104,40 @@ export default function SignUp() {
     }
   };
 
-  const onSubmit = (event) => {
-    console.log("submit");
-  };
+  const onSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      const form = [username, email, password, password2, birth, phone, gender];
+
+      const hasError = form.some((item) => {
+        return item.isError;
+      });
+
+      if (!hasError) {
+        setError({ isError: false, message: "" });
+        const res = {
+          email: email.value,
+          password: password.value,
+          name: username.value,
+          birth: {
+            birthYear: birth.value.substr(0, 2),
+            birthMonth: birth.value.substr(2, 2),
+            birthDay: birth.value.substr(4, 2),
+          },
+          gender: gender.value,
+          phoneNumber: phone.value,
+        };
+        console.log("입력 완료 : ", res);
+      } else {
+        console.log("입력 부족");
+        setError({
+          isError: true,
+          message: "모든 항목을 올바르게 기입해주세요.",
+        });
+      }
+    },
+    [username, email, password, password2, birth, phone, gender]
+  );
 
   return (
     <div className={styles.signup}>
@@ -145,7 +178,7 @@ export default function SignUp() {
           </div>
 
           <div className={styles.form__group}>
-            <label htmlFor="phone" className={styles.label}>
+            <label htmlFor="password" className={styles.label}>
               비밀번호
             </label>
             <input
@@ -160,7 +193,7 @@ export default function SignUp() {
             </small>
           </div>
           <div className={styles.form__group}>
-            <label htmlFor="phone" className={styles.label}>
+            <label htmlFor="password2" className={styles.label}>
               비밀번호 확인
             </label>
             <input
@@ -228,9 +261,14 @@ export default function SignUp() {
             여자
           </div>
 
-          <button className={styles.btn} type="submit">
-            가입하기
-          </button>
+          <div className={styles.form__group}>
+            <small className={styles.info}>
+              <NoticeMessage info={error} className={styles.info} />
+            </small>
+            <button className={styles.btn} type="submit" onClick={onSubmit}>
+              가입하기
+            </button>
+          </div>
         </form>
       </div>
     </div>
