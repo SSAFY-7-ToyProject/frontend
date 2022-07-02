@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./css/SignupLogin.module.css";
-export default function Login() {
+export default function Login({ setHeaderShow }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
+  useEffect(() => {
+    setHeaderShow(false);
+    return () => setHeaderShow(true);
+  }, []);
   const onChange = (event) => {
     const {
       target: { name, value },

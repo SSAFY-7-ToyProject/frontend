@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Post from "../components/post/SinglePost";
 
-export default function SinglePostPage() {
+export default function SinglePostPage({ setHeaderShow }) {
   const post = [
     {
       id: "a967785bf325e3472abe01182abb4fe776a3b045cc79582a728438b3ce369dd2",
@@ -13,6 +13,13 @@ export default function SinglePostPage() {
       title: "오늘의 일기",
       content: "즐거움",
     },
+
+    useEffect(() => {
+      setHeaderShow(false);
+      return () => {
+        setHeaderShow(true);
+      };
+    }, []),
   ];
   return <Post isOwner={true} post={post[0]} />;
 }

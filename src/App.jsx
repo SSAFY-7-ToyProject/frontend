@@ -14,15 +14,19 @@ import PostListPage from "./pages/PostListPage";
 import SignUp from "./pages/SignUp";
 import SinglePostPage from "./pages/SinglePostPage";
 function App() {
-  const [main, SetMain] = useState(false);
+  const [headerShow, setHeaderShow] = useState(false);
 
   const [appClassName, setAppClassName] = useState("app");
   return (
     <Router>
       <div className={appClassName}>
-        {/* {!main && <Header />} */}
+        {headerShow && <Header />}
         <Routes>
-          <Route exact path="/" element={<MainPage setMain={SetMain} />} />
+          <Route
+            exact
+            path="/"
+            element={<MainPage setHeaderShow={setHeaderShow} />}
+          />
           <Route
             exact
             path="/post"
@@ -30,13 +34,30 @@ function App() {
               <PostListPage
                 userid={"ssafy"}
                 setAppClassName={setAppClassName}
+                setHeaderShow={setHeaderShow}
               />
             }
           />
-          <Route exact path="/post/:post" element={<SinglePostPage />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/mypage" element={<MyPage />} />
+          <Route
+            exact
+            path="/post/:post"
+            element={<SinglePostPage setHeaderShow={setHeaderShow} />}
+          />
+          <Route
+            exact
+            path="/login"
+            element={<Login setHeaderShow={setHeaderShow} />}
+          />
+          <Route
+            exact
+            path="/signup"
+            element={<SignUp setHeaderShow={setHeaderShow} />}
+          />
+          <Route
+            exact
+            path="/mypage"
+            element={<MyPage setHeaderShow={setHeaderShow} />}
+          />
         </Routes>
       </div>
     </Router>

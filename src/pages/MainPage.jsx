@@ -2,17 +2,12 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import styles from "./css/MainPage.module.css";
 
-export default function MainPage({ setMain }) {
+export default function MainPage({ setHeaderShow }) {
   const navigate = useNavigate();
 
-  const showHeader = () => {
-    setMain((prevState) => !prevState);
-  };
   useEffect(() => {
-    showHeader();
-    return function unmount() {
-      showHeader();
-    };
+    setHeaderShow(false);
+    return () => setHeaderShow(true);
   }, []);
 
   const movePage = () => {

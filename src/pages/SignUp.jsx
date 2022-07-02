@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import styles from "./css/SignupLogin.module.css";
 import validate from "../util/validate.js";
 
@@ -9,7 +9,7 @@ const NoticeMessage = React.memo(({ info, className }) => {
   return <span className={classNames}>{info.message}</span>;
 });
 
-export default function SignUp() {
+export default function SignUp({ setHeaderShow }) {
   const [username, setUsername] = useState({ isError: true });
   const [email, setEmail] = useState({ isError: true });
   const [password, setPassword] = useState({ isError: true });
@@ -21,7 +21,10 @@ export default function SignUp() {
     isError: true,
     message: "",
   });
-
+  useEffect(() => {
+    setHeaderShow(false);
+    return () => setHeaderShow(true);
+  }, []);
   const onChange = (event) => {
     const {
       target: { name, value, checked },
