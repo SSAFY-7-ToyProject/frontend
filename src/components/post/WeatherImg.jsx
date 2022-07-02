@@ -5,7 +5,6 @@ export default ({ weather, className }) => {
   const classname = [styles.weather, className ? className : ""]
     .join(" ")
     .trim();
-  console.log(classname);
 
   return (
     <img

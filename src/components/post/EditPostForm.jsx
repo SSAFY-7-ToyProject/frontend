@@ -1,21 +1,58 @@
-import React from "react";
-import ColorState from "./ColorState";
-import ColorSelectForm from "./ColorSelectForm";
+import React, { useState } from "react";
 
-export default function EditPostForm({ text }) {
+import WeatherPicker from "./WeatherPick";
+
+export default function EditPostForm({
+  text,
+  title,
+  setWeather,
+  weather,
+  secret,
+  setEditing,
+  children,
+}) {
+  const [DiaryTitle, setTitle] = useState(title);
+  const [content, setContent] = useState(text);
+  const [isSecret, setSecret] = useState(secret);
+  const onChange = (event) => {
+    const {
+      target: { value, name },
+    } = event;
+    switch (name) {
+      case "title":
+        return setTitle(value);
+      case "content":
+        return setContent(value);
+    }
+  };
+
+  const onUpdate = (event) => {
+    event.preventDefault();
+    const form = { weather, secret, title: DiaryTitle, content };
+    console.log(form);
+    setEditing(false);
+  };
+
   return (
     <div>
-      <ColorSelectForm />
-      <ColorState />
-      <progress id="bright" max="100" value="70"></progress>
+      <WeatherPicker setWeather={setWeather} />
       <form className="post-form">
+        <input
+          type="text"
+          name="title"
+          autoFocus
+          value={DiaryTitle}
+          onChange={onChange}
+        />
         <textarea
           type="text"
-          value={text}
-          placeholder="내용을 입력 "
+          name="content"
           autoFocus
+          value={content}
+          onChange={onChange}
         />
-        <button type="submit">완료</button>
+        <button onClick={onUpdate}>완료</button>
+        {children}
       </form>
     </div>
   );
