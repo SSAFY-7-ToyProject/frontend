@@ -13,7 +13,6 @@ export default function ColorPicker({ setBgColor, color }) {
   }, [color1, color2]);
   return (
     <div className={styles.colorPicker}>
-      컬러피커
       {!visible && (
         <button
           onClick={() => {
@@ -24,21 +23,39 @@ export default function ColorPicker({ setBgColor, color }) {
         </button>
       )}
       {visible && (
-        <div>
-          <button
+        <div className={styles.colorArae}>
+          {/* <button
             onClick={() => {
               setVisible(false);
             }}
+            className={styles.button_close}
           >
             close
-          </button>
+          </button> */}
           {selected === 1 ? (
             <HexColorPicker color={color1} onChange={setColor1} />
           ) : (
             <HexColorPicker color={color2} onChange={setColor2} />
           )}
-          <div onClick={() => setSelected(1)}>color1</div>
-          <div onClick={() => setSelected(2)}>color2</div>
+          <div className={styles.info}>
+            <div className={styles.colorInfo}>
+              <div>Color 1 </div>
+              <div
+                onClick={() => setSelected(1)}
+                className={styles.colorCircle}
+                style={{ backgroundColor: color1 }}
+              ></div>
+            </div>
+
+            <div className={styles.colorInfo}>
+              <div>Color 2 </div>
+              <div
+                onClick={() => setSelected(2)}
+                className={styles.colorCircle}
+                style={{ backgroundColor: color2 }}
+              ></div>
+            </div>
+          </div>
         </div>
       )}
     </div>
