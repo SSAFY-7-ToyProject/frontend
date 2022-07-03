@@ -1,32 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import ColorState from "./ColorState";
 import EditPostForm from "./EditPostForm";
 import PostContent from "./PostContent";
 import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
 import ColorPicker from "./ColorPicker";
+import { useDispatch } from "react-redux";
+import { postUpdated, modifyPost } from "../../store/postSlice.js";
 
-export default function Post({ isOwner, post }) {
-  const { post: postId } = useParams();
-
-  const {
-    id,
-    uid,
-    userName,
-    regTime,
-    weather,
-    secret,
-    title,
-    content: text,
-  } = post;
-  const [selectedWeather, setSelectedWeatehr] = useState(weather);
+export default function Post({ isOwner, post, isWrite }) {
+  const { id, weather, secret, title, backgroundColor, content: text } = post;
+  const [selectedWeather, setSelectedWeather] = useState(weather);
   const [editing, setEditing] = useState(false);
-  const [bgcolor1, setColor] = useState("#aabbcc");
   const [bgColor, setBgColor] = useState({ first: "#7bb6c4 ", second: "#fff" });
-  // console.log(bgColor);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const colors = backgroundColor.split(",");
+    setBgColor({ first: colors[0], second: colors[1] });
+    if (isWrite) {
+      setEditing(true);
+    }
+  }, []);
+  const onUpdate = (title, content, secret) => {
+    const form = {
+      id,
+      title,
+      content,
+      secret,
+      backgroundColor: `${bgColor.first},${bgColor.second}`,
+      weather: selectedWeather,
+    };
+    if (isWrite) {
+      console.log("새 글 작성", form);
+    } else {
+      console.log("글 수정", form);
+      dispatch(postUpdated(form));
+      dispatch(modifyPost(form));
+      // navigate(`/posts/${id}`);
+    }
+  };
   const bccolor = `linear-gradient(180deg, ${bgColor.first} 0%, ${bgColor.second} 100%)`;
   return (
     <div className={styles.diaryPage} style={{ background: bccolor }}>
@@ -36,23 +50,28 @@ export default function Post({ isOwner, post }) {
         </div>
         <div className={styles.contentArea}>
           <div className={styles.content}>
-            <button onClick={() => navigate(-1)}>뒤로 가기</button>
-            {isOwner && (
-              <div className="buttons">
-                <button onClick={() => setEditing(true)}>수정 ✎</button>
-                <button>삭제 x </button>
-              </div>
-            )}
+            <div className={styles.buttons}>
+              {isOwner && (
+                <div className={styles.buttonOwner}>
+                  <button onClick={() => setEditing(true)}>수정 ✎</button>
+                  <button>삭제 x </button>
+                </div>
+              )}
+              <button
+                onClick={() => navigate(-1)}
+                className={styles.buttonClose}
+              >
+                X
+              </button>
+            </div>
 
             <div className={styles.textArea}>
               {editing ? (
                 <EditPostForm
-                  text={text}
-                  title={title}
-                  setWeather={setSelectedWeatehr}
-                  weather={selectedWeather}
-                  secret={secret}
+                  post={post}
                   setEditing={setEditing}
+                  setWeather={setSelectedWeather}
+                  onUpdate={onUpdate}
                 >
                   <ColorPicker color={bgColor} setBgColor={setBgColor} />
                 </EditPostForm>
