@@ -10,17 +10,38 @@ export default function MainPage({ setHeaderShow }) {
     return () => setHeaderShow(true);
   }, []);
 
-  const movePage = () => {
-    navigate("/post");
+  const movePage = (path) => {
+    navigate(`/${path}`);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.main}>
         <div className={styles.infos}>
-          <h1>Main Page - App name area</h1>
+          <h1>내 마음 일기 예보</h1>
           <div className={styles.info}>소개 영역</div>
-          <button className={styles.loginBtn} onClick={movePage}>
+          <button
+            className={styles.loginBtn}
+            onClick={() => {
+              movePage("login");
+            }}
+          >
+            로그인
+          </button>
+          <button
+            className={styles.loginBtn}
+            onClick={() => {
+              movePage("signup");
+            }}
+          >
+            회원가입
+          </button>
+          <button
+            className={styles.loginBtn}
+            onClick={() => {
+              movePage("post");
+            }}
+          >
             Enter
           </button>
         </div>

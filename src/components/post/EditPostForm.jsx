@@ -4,17 +4,18 @@ import WeatherPicker from "./WeatherPick";
 import styles from "../css/post.module.css";
 
 export default function EditPostForm({
-  text,
-  title,
-  setWeather,
-  weather,
-  secret,
+  post,
   setEditing,
+  setWeather,
+  onUpdate,
   children,
 }) {
+  const { content: text, title, weather, secret, backgroundColor } = post;
+  console.log(post);
   const [DiaryTitle, setTitle] = useState(title);
   const [content, setContent] = useState(text);
   const [isSecret, setSecret] = useState(secret);
+
   const onChange = (event) => {
     const {
       target: { value, name },
@@ -29,10 +30,9 @@ export default function EditPostForm({
     }
   };
 
-  const onUpdate = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    const form = { weather, secret, title: DiaryTitle, content };
-    console.log(form);
+    onUpdate(DiaryTitle, content, isSecret);
     setEditing(false);
   };
 
@@ -74,7 +74,7 @@ export default function EditPostForm({
             공개글
           </div>
 
-          <button onClick={onUpdate} className={styles.edit_button}>
+          <button onClick={onSubmit} className={styles.edit_button}>
             완료
           </button>
         </div>

@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import MyPage from "./pages/MyPage";
 import PostListPage from "./pages/PostListPage";
+import NewPost from "./pages/NewPost";
 import SignUp from "./pages/SignUp";
 import SinglePostPage from "./pages/SinglePostPage";
 function App() {
@@ -57,6 +58,11 @@ function App() {
             exact
             path="/mypage"
             element={<MyPage setHeaderShow={setHeaderShow} />}
+          />
+          <Route
+            exact
+            path="/write"
+            element={<NewPost setHeaderShow={setHeaderShow} />}
           />
         </Routes>
       </div>
