@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useCallback, useEffect } from "react";
 import styles from "./css/SignupLogin.module.css";
 import validate from "../util/validate.js";
+import { signUp } from "../store/authSlice.js";
+import { useDispatch } from "react-redux";
 
 const NoticeMessage = React.memo(({ info, className }) => {
   const classNames = [className, info.isError ? styles.error : ""]
@@ -21,6 +23,9 @@ export default function SignUp({ setHeaderShow }) {
     isError: true,
     message: "",
   });
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setHeaderShow(false);
     return () => setHeaderShow(true);
@@ -131,6 +136,7 @@ export default function SignUp({ setHeaderShow }) {
           phoneNumber: phone.value,
         };
         console.log("입력 완료 : ", res);
+        dispatch(signUp(res));
       } else {
         console.log("입력 부족");
         setError({
