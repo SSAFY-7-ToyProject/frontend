@@ -4,33 +4,7 @@ import {
   createSelector,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-
-const data = [
-  {
-    id: "a967785bf325e3472abe01182abb4fe776a3b045cc79582a728438b3ce369dd2",
-    uid: "674270c5f850a78f721228eb9c9da82d78b7ead519caa3d974815c45eeca2053",
-    userName: "james",
-    regTime: "2022-06-27T01:20:29.06302",
-    weather: "SUNNY",
-    secret: false,
-    title: "오늘의 일기11111",
-    backgroundColor: "#959af4,#fff",
-    content:
-      "일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트",
-  },
-  {
-    id: "a967785bf325e3472abe01182abb4fe776a3b045cc79582a728438b3ce369dd3332",
-    uid: "674270c5f850a78f721228eb9c9da82d78b7ead519caa3d974815c45eeca2053",
-    userName: "james",
-    regTime: "2022-06-27T01:20:29.06302",
-    weather: "SNOW",
-    secret: true,
-    title: "오늘의 일기222222",
-    backgroundColor: "#fff,#7bb6c4",
-    content:
-      "일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트일기테스트",
-  },
-];
+import { http } from "../api/index";
 
 const postsAdapter = createEntityAdapter();
 
@@ -40,17 +14,28 @@ const initialState = postsAdapter.getInitialState({
 });
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  console.log("http 요청 : get posts");
-  return data;
+  console.log("http 요청 : get posts token:");
+  http.defaults.headers["access-token"] = localStorage.getItem("access-token");
+  const { data } = await http.get("/diary/list");
+  return data.data;
 });
 
 export const addNewPost = createAsyncThunk("posts/addPost", async (post) => {
   console.log("http 요청 : add new post");
+  http.defaults.headers["access-token"] = localStorage.getItem("access-token");
+  const { data } = await http.post("/diary", post);
+  return data;
 });
 
 export const modifyPost = createAsyncThunk("posts/modifyPost", async (post) => {
   console.log("http 요청 : modify post", post);
-  return post;
+  http.defaults.headers["access-token"] = localStorage.getItem("access-token");
+
+  const { data } = await http.put(
+    `/diary/2be6d7cb47ac2cb564fafaff23d6b61ec57d894836e6558f15895f57a636a5bc`,
+    post
+  );
+  return data.msg;
 });
 
 export const deletePost = createAsyncThunk("posts/deletePost", async (post) => {
@@ -83,6 +68,9 @@ const postsSlice = createSlice({
     builder.addCase(modifyPost.fulfilled, (state, action) => {
       console.log("수정 완료 ");
     });
+    builder.addCase(addNewPost.fulfilled, (state, action) => {
+      console.log("등록 완료", action.payload);
+    });
   },
 });
 
@@ -95,3 +83,8 @@ export const {
 } = postsAdapter.getSelectors((state) => state.posts); // 전체 store를 참조하기 때문에 사용하고자 하는 slice를 지정해야함.
 
 export const { postUpdated } = postsSlice.actions;
+
+export const selectPostsByUser = createSelector(
+  [selectAllPosts, (state, uid) => uid],
+  (posts, uid) => posts.filter((post) => post.uid === uid)
+);

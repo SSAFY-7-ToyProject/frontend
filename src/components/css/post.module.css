@@ -8,7 +8,8 @@
 .postList {
   display: flex;
   justify-content: center;
-  width: 60%;
+  width: 65%;
+  height: 100%;
   overflow-y: scroll;
 }
 .posts {
@@ -17,7 +18,6 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-
   justify-content: center;
   align-items: center;
 }
@@ -29,12 +29,45 @@
   animation: thumbnail-odd 8s ease 0s infinite reverse forwards;
 }
 .item {
-  width: 33%;
-  color: #fff;
+  width: 30%;
+  height: 5em;
+  text-decoration: none;
+
+  align-items: center;
+  /* border: 1px solid #111; */
+  margin: 0 0.2em;
+  /* background-color: rgba(240, 240, 240, 0.228); */
+}
+.thumbnail_card {
   text-decoration: none;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
+  width: 80%;
+  height: 3em;
+  /* border: 1px solid black; */
+  border-radius: 15px;
+}
+.thumbnail_info {
+  text-decoration: none;
+  font-family: "Cafe24Ohsquareair";
+  color: #ffffff;
+  text-align: center;
+  width: 14em;
+  padding: 2em;
+  border-radius: 10px;
+}
+.thumbnail_title {
+  margin-bottom: 0.3em;
+}
+.thumbnail_date::before {
+  display: block;
+  content: "";
+  border-top: 0.1rem solid rgba(255, 255, 255, 0.529);
+  width: 4rem;
+  margin: 0.5rem;
+  transform: translateX(2.5rem);
 }
 
 .weather {
@@ -43,6 +76,7 @@
 
 .weather.thumbnail {
   width: 10em;
+  z-index: 10;
 }
 
 .weather.post {
@@ -162,8 +196,8 @@
 .textArea {
   width: 100%;
   height: 90%;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
 .diary_items {
   height: 100%;

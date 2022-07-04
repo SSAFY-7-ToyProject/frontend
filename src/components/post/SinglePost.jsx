@@ -6,7 +6,7 @@ import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
 import ColorPicker from "./ColorPicker";
 import { useDispatch } from "react-redux";
-import { postUpdated, modifyPost } from "../../store/postSlice.js";
+import { postUpdated, modifyPost, addNewPost } from "../../store/postSlice.js";
 
 export default function Post({ isOwner, post, isWrite }) {
   const { id, weather, secret, title, backgroundColor, content: text } = post;
@@ -34,6 +34,8 @@ export default function Post({ isOwner, post, isWrite }) {
     };
     if (isWrite) {
       console.log("새 글 작성", form);
+      dispatch(addNewPost(form));
+      navigate("/post");
     } else {
       console.log("글 수정", form);
       dispatch(postUpdated(form));

@@ -7,39 +7,31 @@ import {
   selectPostById,
   selectPostIds,
 } from "../../store/postSlice";
+
 import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
-
+import date from "../../util/dateFormat.js";
 function PostListItem({ id }) {
-  console.log(id);
   const post = useSelector((state) => selectPostById(state, id));
-  console.log(post);
   return (
     <li className={styles.item}>
-      <Link to={`/post/${post.id}`}>
+      <Link to={`/post/${post.id}`} className={styles.thumbnail_card}>
         <WeatherImg weather={post.weather} className={styles.thumbnail} />
+        <div className={styles.thumbnail_info}>
+          <div className={styles.thumbnail_title}>{post.title}</div>
+          <div className={styles.thumbnail_date}>{date(post.regTime)}</div>
+        </div>
         {/* <p>{post.regTime}</p> */}
       </Link>
     </li>
   );
 }
-export default function PostList({ userid: username, setAppClassName }) {
+export default function PostList() {
   const dispatch = useDispatch();
   const posts = useSelector(selectAllPosts);
   const postIds = useSelector(selectPostIds);
-  console.log("username", username);
-  console.log(posts);
 
-  useEffect(() => {
-    if (username) {
-      setAppClassName("app night");
-    } else {
-      setAppClassName("app day");
-    }
-    return () => {
-      setAppClassName("app");
-    };
-  }, [username]);
+  console.log(posts);
 
   useEffect(() => {
     dispatch(fetchPosts());
