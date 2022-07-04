@@ -3,6 +3,7 @@ import styles from "./css/SignupLogin.module.css";
 import validate from "../util/validate.js";
 import { signUp } from "../store/authSlice.js";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 const NoticeMessage = React.memo(({ info, className }) => {
   const classNames = [className, info.isError ? styles.error : ""]
@@ -23,7 +24,7 @@ export default function SignUp({ setHeaderShow }) {
     isError: true,
     message: "",
   });
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -137,6 +138,8 @@ export default function SignUp({ setHeaderShow }) {
         };
         console.log("입력 완료 : ", res);
         dispatch(signUp(res));
+        alert("회원가입 완료 !");
+        navigate("/login");
       } else {
         console.log("입력 부족");
         setError({

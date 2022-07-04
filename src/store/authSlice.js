@@ -14,8 +14,10 @@ export const signUp = createAsyncThunk("auth/signUp", async (user) => {
   return data;
 });
 
-export const logIn = createAsyncThunk("auth/login", async () => {
-  console.log("로그인");
+export const logIn = createAsyncThunk("auth/login", async (form) => {
+  console.log("로그인", form);
+  const { data } = await http.post("/user/login", form);
+  return data;
 });
 
 export const logOut = createAsyncThunk("auth/logout", async () => {
@@ -32,13 +34,17 @@ export const modifyUserInfo = createAsyncThunk("auth/modify", async () => {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: {}, token: "" },
+  initialState: { uid: "", token: "" },
   reducers: {},
   extraReducers(builder) {
     builder.addCase(signUp.fulfilled, (state, action) => {
-      console.log("회원가입 완료 ");
+      // console.log("회원가입 완료 ");
     });
-    builder.addCase(logIn.fulfilled, (state, action) => {});
+    builder.addCase(logIn.fulfilled, (state, action) => {
+      console.log("로그인 완료 token=", action.payload);
+      localStorage.setItem("access-token", action.payload["access-token"]);
+      state.uid = action.payload.uid;
+    });
     builder.addCase(logOut.fulfilled, (state, action) => {});
     builder.addCase(userInfo.fulfilled, (state, action) => {});
     builder.addCase(modifyUserInfo.fulfilled, (state, action) => {});
@@ -46,3 +52,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const getToken = (state) => state.token;

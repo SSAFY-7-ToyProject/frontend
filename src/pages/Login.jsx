@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { logIn } from "../store/authSlice.js";
 import styles from "./css/SignupLogin.module.css";
 export default function Login({ setHeaderShow }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setHeaderShow(false);
     return () => setHeaderShow(true);
@@ -24,7 +30,8 @@ export default function Login({ setHeaderShow }) {
     event.preventDefault();
     console.log("login");
     const form = { email, password };
-    console.log(form);
+    dispatch(logIn(form));
+    navigate("/post");
   };
 
   return (
