@@ -5,9 +5,9 @@ import PostContent from "./PostContent";
 import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
 import ColorPicker from "./ColorPicker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postUpdated, modifyPost, addNewPost } from "../../store/postSlice.js";
-
+import { getUid } from "../../store/authSlice.js";
 export default function Post({ isOwner, post, isWrite }) {
   const { id, weather, secret, title, backgroundColor, content: text } = post;
   const [selectedWeather, setSelectedWeather] = useState(weather);
@@ -15,6 +15,7 @@ export default function Post({ isOwner, post, isWrite }) {
   const [bgColor, setBgColor] = useState({ first: "#7bb6c4 ", second: "#fff" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const uid = useSelector(getUid);
 
   useEffect(() => {
     const colors = backgroundColor.split(",");
@@ -26,6 +27,7 @@ export default function Post({ isOwner, post, isWrite }) {
   const onUpdate = (title, content, secret) => {
     const form = {
       id,
+      uid,
       title,
       content,
       secret,

@@ -30,7 +30,7 @@
 }
 .item {
   width: 30%;
-  height: 5em;
+  height: 15em;
   text-decoration: none;
 
   align-items: center;
@@ -45,7 +45,7 @@
   flex-direction: column;
   align-items: center;
   width: 80%;
-  height: 3em;
+  /* height: 3em; */
   /* border: 1px solid black; */
   border-radius: 15px;
 }

@@ -54,3 +54,4 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 export const getToken = (state) => state.token;
+export const getUid = (state) => state.auth.uid;

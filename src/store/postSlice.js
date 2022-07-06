@@ -6,7 +6,9 @@ import {
 } from "@reduxjs/toolkit";
 import { http } from "../api/index";
 
-const postsAdapter = createEntityAdapter();
+const postsAdapter = createEntityAdapter({
+  sortComparer: (a, b) => b.regTime.localeCompare(a.regTime),
+});
 
 const initialState = postsAdapter.getInitialState({
   status: "idle",
@@ -23,18 +25,18 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
 export const addNewPost = createAsyncThunk("posts/addPost", async (post) => {
   console.log("http 요청 : add new post");
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
-  const { data } = await http.post("/diary", post);
-  return data;
+  const {
+    data: { id, regTime },
+  } = await http.post("/diary", post);
+  const newPost = { ...post, id, regTime };
+  return newPost;
 });
 
 export const modifyPost = createAsyncThunk("posts/modifyPost", async (post) => {
   console.log("http 요청 : modify post", post);
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
 
-  const { data } = await http.put(
-    `/diary/2be6d7cb47ac2cb564fafaff23d6b61ec57d894836e6558f15895f57a636a5bc`,
-    post
-  );
+  const { data } = await http.put(`/diary/${post.id}`, post);
   return data.msg;
 });
 
@@ -70,6 +72,11 @@ const postsSlice = createSlice({
     });
     builder.addCase(addNewPost.fulfilled, (state, action) => {
       console.log("등록 완료", action.payload);
+      try {
+        postsAdapter.upsertOne(state, action.payload);
+      } catch (error) {
+        console.log("adapter 에러 ", error);
+      }
     });
   },
 });
