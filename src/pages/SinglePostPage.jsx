@@ -27,5 +27,5 @@ export default function SinglePostPage({ setHeaderShow }) {
   }, []);
   const { post: postId } = useParams();
   const post = useSelector((state) => selectPostById(state, postId));
-  return <Post isOwner={true} post={post} />;
+  return <Post post={post} />;
 }

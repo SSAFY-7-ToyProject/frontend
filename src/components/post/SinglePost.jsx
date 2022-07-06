@@ -8,14 +8,23 @@ import ColorPicker from "./ColorPicker";
 import { useDispatch, useSelector } from "react-redux";
 import { postUpdated, modifyPost, addNewPost } from "../../store/postSlice.js";
 import { getUid } from "../../store/authSlice.js";
-export default function Post({ isOwner, post, isWrite }) {
-  const { id, weather, secret, title, backgroundColor, content: text } = post;
+export default function Post({ post, isWrite }) {
+  const {
+    id,
+    weather,
+    secret,
+    title,
+    backgroundColor,
+    content: text,
+    uid: userId,
+  } = post;
   const [selectedWeather, setSelectedWeather] = useState(weather);
   const [editing, setEditing] = useState(false);
   const [bgColor, setBgColor] = useState({ first: "#7bb6c4 ", second: "#fff" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = useSelector(getUid);
+  const isOwner = userId === uid;
 
   useEffect(() => {
     const colors = backgroundColor.split(",");
@@ -55,11 +64,13 @@ export default function Post({ isOwner, post, isWrite }) {
         <div className={styles.contentArea}>
           <div className={styles.content}>
             <div className={styles.buttons}>
-              {isOwner && (
+              {isOwner ? (
                 <div className={styles.buttonOwner}>
                   <button onClick={() => setEditing(true)}>수정 ✎</button>
                   <button>삭제 x </button>
                 </div>
+              ) : (
+                <div></div>
               )}
               <button
                 onClick={() => navigate(-1)}
