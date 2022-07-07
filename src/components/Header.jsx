@@ -8,7 +8,7 @@ export default function Header({ isLogined }) {
   const location = useLocation();
   const navigate = useNavigate();
   const isDiary = location.pathname.split("/").length == 3 ? true : false;
-  const dispatch = useDispatch(logout);
+  const dispatch = useDispatch();
 
   if (
     isDiary ||
@@ -21,7 +21,7 @@ export default function Header({ isLogined }) {
 
   const onLogout = () => {
     console.log("logout");
-    dispatch(logout);
+    dispatch(logout());
     alert("로그아웃 되었습니다.");
     navigate("/");
   };

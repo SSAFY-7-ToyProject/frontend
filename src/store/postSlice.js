@@ -21,6 +21,16 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return data.data;
 });
 
+export const fetchMyPosts = createAsyncThunk(
+  "posts/fetchMyPosts",
+  async (uid) => {
+    http.defaults.headers["access-token"] =
+      localStorage.getItem("access-token");
+    const { data } = await http.get(`/diary/user/${uid}`);
+    return data.data;
+  }
+);
+
 export const addNewPost = createAsyncThunk("posts/addPost", async (post) => {
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
   const {
@@ -66,6 +76,7 @@ const postsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
       postsAdapter.upsertMany(state, action.payload);
+      console.log("fetch posts", action.payload);
     });
     builder.addCase(modifyPost.fulfilled, (state, action) => {
       console.log("수정 완료 ");
@@ -85,6 +96,11 @@ const postsSlice = createSlice({
         console.log("삭제 오류", err);
       }
     });
+    builder.addCase(fetchMyPosts.fulfilled, (state, action) => {
+      postsAdapter.setAll(state, action.payload);
+      console.log("내가 작성한 글", action.payload);
+      console.log(state.posts);
+    });
   },
 });
 
@@ -101,4 +117,9 @@ export const { postUpdated } = postsSlice.actions;
 export const selectPostsByUser = createSelector(
   [selectAllPosts, (state, uid) => uid],
   (posts, uid) => posts.filter((post) => post.uid === uid)
+);
+
+export const selectPublicPosts = createSelector(
+  [selectAllPosts, (state, uid) => uid],
+  (posts, uid) => posts.filter((post) => post.secret == false)
 );

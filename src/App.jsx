@@ -18,12 +18,14 @@ import SinglePostPage from "./pages/SinglePostPage";
 import MyDiary from "./pages/MyDiary";
 import { useSelector } from "react-redux";
 import { getUid } from "./store/authSlice.js";
+import { selectAllPosts } from "./store/postSlice";
 function App() {
   const [appClassName, setAppClassName] = useState("app");
   const userid = useSelector(getUid);
 
   const isLogined = !!userid;
-
+  // const posts = useSelector(selectAllPosts);
+  // console.log(posts);
   return (
     <Router>
       <div className={appClassName}>
@@ -42,9 +44,7 @@ function App() {
           <Route
             exact
             path="/post"
-            element={
-              <PostListPage userid={userid} setAppClassName={setAppClassName} />
-            }
+            element={<PostListPage setAppClassName={setAppClassName} />}
           />
           <Route exact path="/post/:post" element={<SinglePostPage />} />
           <Route exact path="/login" element={<Login />} />
