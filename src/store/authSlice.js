@@ -42,7 +42,6 @@ const authSlice = createSlice({
       // console.log("회원가입 완료 ");
     });
     builder.addCase(logIn.fulfilled, (state, action) => {
-      console.log("로그인 완료 token=", action.payload);
       localStorage.setItem("access-token", action.payload["access-token"]);
       state.uid = action.payload.uid;
     });

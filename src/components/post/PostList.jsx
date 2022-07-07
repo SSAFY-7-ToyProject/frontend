@@ -21,22 +21,11 @@ function PostListItem({ id }) {
           <div className={styles.thumbnail_title}>{post.title}</div>
           <div className={styles.thumbnail_date}>{date(post.regTime)}</div>
         </div>
-        {/* <p>{post.regTime}</p> */}
       </Link>
     </li>
   );
 }
 export default function PostList({ userid }) {
-  const navigate = useNavigate();
-  const user = localStorage.getItem("access-token");
-
-  useEffect(() => {
-    if (!!user) {
-      return;
-    } else {
-      navigate("/");
-    }
-  }, []);
   const dispatch = useDispatch();
 
   const postIds = useSelector(selectPostIds);

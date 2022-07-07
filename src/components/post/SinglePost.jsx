@@ -6,7 +6,12 @@ import styles from "../css/post.module.css";
 import WeatherImg from "./WeatherImg";
 import ColorPicker from "./ColorPicker";
 import { useDispatch, useSelector } from "react-redux";
-import { postUpdated, modifyPost, addNewPost } from "../../store/postSlice.js";
+import {
+  postUpdated,
+  modifyPost,
+  addNewPost,
+  deletePost,
+} from "../../store/postSlice.js";
 import { getUid } from "../../store/authSlice.js";
 export default function Post({ post, isWrite }) {
   const {
@@ -54,6 +59,11 @@ export default function Post({ post, isWrite }) {
       // navigate(`/posts/${id}`);
     }
   };
+
+  const onDelete = () => {
+    dispatch(deletePost(id));
+    navigate(-1);
+  };
   const bccolor = `linear-gradient(180deg, ${bgColor.first} 0%, ${bgColor.second} 100%)`;
   return (
     <div className={styles.diaryPage} style={{ background: bccolor }}>
@@ -67,7 +77,7 @@ export default function Post({ post, isWrite }) {
               {isOwner ? (
                 <div className={styles.buttonOwner}>
                   <button onClick={() => setEditing(true)}>수정 ✎</button>
-                  <button>삭제 x </button>
+                  <button onClick={onDelete}>삭제 x </button>
                 </div>
               ) : (
                 <div></div>

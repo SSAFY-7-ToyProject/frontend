@@ -73,7 +73,7 @@ export default function Login() {
             로그인하기
           </button>
           <button className={styles.btn} onClick={onTest}>
-            테스트로그인 (bbb@bbb.bbb)
+            테스트로그인 (email:bbb@bbb.bbb, pw:12345678)
           </button>
         </form>
       </div>

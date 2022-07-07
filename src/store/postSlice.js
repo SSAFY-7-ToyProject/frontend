@@ -16,14 +16,12 @@ const initialState = postsAdapter.getInitialState({
 });
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  console.log("http 요청 : get posts token:");
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
   const { data } = await http.get("/diary/list");
   return data.data;
 });
 
 export const addNewPost = createAsyncThunk("posts/addPost", async (post) => {
-  console.log("http 요청 : add new post");
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
   const {
     data: { id, regTime },
@@ -33,15 +31,17 @@ export const addNewPost = createAsyncThunk("posts/addPost", async (post) => {
 });
 
 export const modifyPost = createAsyncThunk("posts/modifyPost", async (post) => {
-  console.log("http 요청 : modify post", post);
   http.defaults.headers["access-token"] = localStorage.getItem("access-token");
 
   const { data } = await http.put(`/diary/${post.id}`, post);
   return data.msg;
 });
 
-export const deletePost = createAsyncThunk("posts/deletePost", async (post) => {
-  console.log("http 요청 : delete new post");
+export const deletePost = createAsyncThunk("posts/deletePost", async (id) => {
+  http.defaults.headers["access-token"] = localStorage.getItem("access-token");
+
+  await http.delete(`/diary/${id}`);
+  return id;
 });
 
 const postsSlice = createSlice({
@@ -76,6 +76,13 @@ const postsSlice = createSlice({
         postsAdapter.upsertOne(state, action.payload);
       } catch (error) {
         console.log("adapter 에러 ", error);
+      }
+    });
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      try {
+        postsAdapter.removeOne(state, action.payload);
+      } catch (err) {
+        console.log("삭제 오류", err);
       }
     });
   },
