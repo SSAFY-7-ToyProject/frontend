@@ -1,14 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Navigate } from "react-router";
 import styles from "./css/MainPage.module.css";
 
-export default function MainPage({ setHeaderShow }) {
+export default function MainPage() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setHeaderShow(false);
-    return () => setHeaderShow(true);
-  }, []);
 
   const movePage = (path) => {
     navigate(`/${path}`);

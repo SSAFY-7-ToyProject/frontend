@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Post from "../components/post/SinglePost";
 
-export default function SinglePostPage({ setHeaderShow }) {
+export default function SinglePostPage() {
   const post = [
     {
       id: "",
@@ -14,13 +14,6 @@ export default function SinglePostPage({ setHeaderShow }) {
       backgroundColor: "#7bb6c4,#fff",
       content: "",
     },
-
-    useEffect(() => {
-      setHeaderShow(false);
-      return () => {
-        setHeaderShow(true);
-      };
-    }, []),
   ];
   return <Post post={post[0]} isWrite={true} />;
 }

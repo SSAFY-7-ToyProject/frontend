@@ -12,7 +12,7 @@ const NoticeMessage = React.memo(({ info, className }) => {
   return <span className={classNames}>{info.message}</span>;
 });
 
-export default function SignUp({ setHeaderShow }) {
+export default function SignUp() {
   const [username, setUsername] = useState({ isError: true });
   const [email, setEmail] = useState({ isError: true });
   const [password, setPassword] = useState({ isError: true });
@@ -27,10 +27,6 @@ export default function SignUp({ setHeaderShow }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setHeaderShow(false);
-    return () => setHeaderShow(true);
-  }, []);
   const onChange = (event) => {
     const {
       target: { name, value, checked },

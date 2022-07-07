@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchPosts,
-  selectAllPosts,
   selectPostById,
   selectPostIds,
+  selectPostsByUser,
 } from "../../store/postSlice";
 
 import styles from "../css/post.module.css";
@@ -26,20 +26,36 @@ function PostListItem({ id }) {
     </li>
   );
 }
-export default function PostList() {
+export default function PostList({ userid }) {
+  const navigate = useNavigate();
+  const user = localStorage.getItem("access-token");
+
+  useEffect(() => {
+    if (!!user) {
+      return;
+    } else {
+      navigate("/");
+    }
+  }, []);
   const dispatch = useDispatch();
-  const posts = useSelector(selectAllPosts);
+
   const postIds = useSelector(selectPostIds);
-
-  console.log(posts);
-
+  const postsByUser = useSelector((state) => selectPostsByUser(state, userid));
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const postList = postIds.map((id) => {
-    return <PostListItem id={id} key={id} />;
-  });
+  const byUser = !!userid;
+  let postList;
+  if (!byUser) {
+    postList = postIds.map((id) => {
+      return <PostListItem id={id} key={id} />;
+    });
+  } else {
+    postList = postsByUser.map((post) => {
+      return <PostListItem id={post.id} key={post.id} />;
+    });
+  }
 
   return (
     <div className={styles.postList}>
