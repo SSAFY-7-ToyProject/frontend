@@ -11,7 +11,6 @@ const dateFormat = (regTime) => {
 };
 export default function PostContent({ post }) {
   const { title, content, weather, regTime, secret, userName } = post;
-  console.log(post);
 
   const lock = (function () {
     return (

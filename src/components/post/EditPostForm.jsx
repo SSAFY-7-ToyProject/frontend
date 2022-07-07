@@ -32,8 +32,8 @@ export default function EditPostForm({
 
   const onSubmit = (event) => {
     event.preventDefault();
-    onUpdate(DiaryTitle, content, isSecret);
-    setEditing(false);
+    const res = onUpdate(DiaryTitle, content, isSecret);
+    if (res) setEditing(false);
   };
 
   return (
@@ -47,6 +47,7 @@ export default function EditPostForm({
           value={DiaryTitle}
           onChange={onChange}
           className={styles.edit_title}
+          required
         />
         <textarea
           type="text"
@@ -55,6 +56,7 @@ export default function EditPostForm({
           value={content}
           onChange={onChange}
           className={styles.edit_text}
+          required
         />
         <div className={styles.btn}>
           <div className={styles.secret_btn}>
@@ -63,6 +65,7 @@ export default function EditPostForm({
               name="secret"
               value="secret"
               onChange={onChange}
+              checked={isSecret && "checked"}
             />{" "}
             비밀글
             <input
@@ -70,7 +73,8 @@ export default function EditPostForm({
               name="secret"
               value="open"
               onChange={onChange}
-            />{" "}
+              checked={!isSecret && "checked"}
+            />
             공개글
           </div>
 

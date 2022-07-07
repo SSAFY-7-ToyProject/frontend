@@ -48,6 +48,14 @@ export default function Post({ post, isWrite }) {
       backgroundColor: `${bgColor.first},${bgColor.second}`,
       weather: selectedWeather,
     };
+    console.log("완료 버튼", form);
+    let allWrited = true;
+    if (title === "" || content === "" || secret === "") allWrited = false;
+
+    if (!allWrited) {
+      alert("모든 항목을 작성해주세요.");
+      return false;
+    }
     if (isWrite) {
       console.log("새 글 작성", form);
       dispatch(addNewPost(form));
@@ -58,6 +66,7 @@ export default function Post({ post, isWrite }) {
       dispatch(modifyPost(form));
       // navigate(`/posts/${id}`);
     }
+    return true;
   };
 
   const onDelete = () => {
