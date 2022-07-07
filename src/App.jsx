@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Redirect,
+  Navigate,
 } from "react-router-dom";
 
+import { PrivateRoute, privateRoute, PublicRoute } from "./util/CustomRouter";
 import Header from "./components/Header";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
@@ -14,55 +15,57 @@ import PostListPage from "./pages/PostListPage";
 import NewPost from "./pages/NewPost";
 import SignUp from "./pages/SignUp";
 import SinglePostPage from "./pages/SinglePostPage";
+import MyDiary from "./pages/MyDiary";
+import { useSelector } from "react-redux";
+import { getUid } from "./store/authSlice.js";
 function App() {
-  const [headerShow, setHeaderShow] = useState(false);
-
   const [appClassName, setAppClassName] = useState("app");
+  const userid = useSelector(getUid);
+
+  const isLogined = !!userid;
+
   return (
     <Router>
       <div className={appClassName}>
-        {headerShow && <Header />}
+        <Header isLogined={isLogined} />
         <Routes>
+          <Route exact path="/" element={<MainPage />} />
           <Route
             exact
-            path="/"
-            element={<MainPage setHeaderShow={setHeaderShow} />}
+            path="/mydiary"
+            element={
+              <PrivateRoute redirect="/login" isLogined={isLogined}>
+                <MyDiary userid={userid} setAppClassName={setAppClassName} />
+              </PrivateRoute>
+            }
           />
           <Route
             exact
             path="/post"
             element={
-              <PostListPage
-                userid={"ssafy"}
-                setAppClassName={setAppClassName}
-                setHeaderShow={setHeaderShow}
-              />
+              <PostListPage userid={userid} setAppClassName={setAppClassName} />
+            }
+          />
+          <Route exact path="/post/:post" element={<SinglePostPage />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
+          <Route
+            exact
+            path="/mypage"
+            element={
+              <PrivateRoute redirect="/login" isLogined={isLogined}>
+                <MyPage />
+              </PrivateRoute>
             }
           />
           <Route
             exact
-            path="/post/:post"
-            element={<SinglePostPage setHeaderShow={setHeaderShow} />}
-          />
-          <Route
-            exact
-            path="/login"
-            element={<Login setHeaderShow={setHeaderShow} />}
-          />
-          <Route
-            exact
-            path="/signup"
-            element={<SignUp setHeaderShow={setHeaderShow} />}
-          />
-          <Route
-            exact
-            path="/mypage"
-            element={<MyPage setHeaderShow={setHeaderShow} />}
-          />
-          <Route
-            exact
             path="/write"
-            element={<NewPost setHeaderShow={setHeaderShow} />}
+            element={
+              <PrivateRoute redirect="/login" isLogined={isLogined}>
+                <NewPost />
+              </PrivateRoute>
+            }
           />
         </Routes>
       </div>
