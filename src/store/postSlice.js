@@ -98,8 +98,6 @@ const postsSlice = createSlice({
     });
     builder.addCase(fetchMyPosts.fulfilled, (state, action) => {
       postsAdapter.setAll(state, action.payload);
-      console.log("내가 작성한 글", action.payload);
-      console.log(state.posts);
     });
   },
 });
@@ -121,5 +119,5 @@ export const selectPostsByUser = createSelector(
 
 export const selectPublicPosts = createSelector(
   [selectAllPosts, (state, uid) => uid],
-  (posts, uid) => posts.filter((post) => post.secret == false)
+  (posts, uid) => posts.filter((post) => post.secret === false)
 );
