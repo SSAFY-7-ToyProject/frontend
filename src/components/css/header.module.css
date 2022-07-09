@@ -1,7 +1,7 @@
 .header {
   width: 90%;
-  border-bottom: 1px solid white;
-  padding-bottom: 1em;
+  /* border-bottom: 1px solid white; */
+  padding-bottom: 0.3em;
   height: 5em;
   display: flex;
   justify-content: space-around;
@@ -15,7 +15,21 @@
 
 .nav {
   text-decoration: none;
-  color: #fff;
-  font-size: 1.7rem;
+  color: rgb(255, 255, 255);
+  font-size: 1.3rem;
   font-weight: 500;
+  line-height: 1.3rem;
+  padding: 0.4em 0.6em;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.nav:hover {
+  background-color: rgba(180, 236, 237, 0.288);
+  cursor: pointer;
+}
+
+.active {
+  border: 2px solid #fff;
+  border-radius: 10px;
 }

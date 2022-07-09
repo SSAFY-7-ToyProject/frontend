@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useNavigate, Navigate } from "react-router";
+import React from "react";
+import { useNavigate } from "react-router";
 import styles from "./css/MainPage.module.css";
 
 export default function MainPage() {
@@ -13,8 +13,8 @@ export default function MainPage() {
     <div className={styles.container}>
       <div className={styles.main}>
         <div className={styles.infos}>
-          <h1>내 마음 일기 예보</h1>
-          <div className={styles.info}>소개 영역</div>
+          <h1 className={styles.title}>내 마음 일기 예보</h1>
+          {/* <div className={styles.info}>소개 영역</div> */}
           <button
             className={styles.loginBtn}
             onClick={() => {
@@ -31,14 +31,14 @@ export default function MainPage() {
           >
             회원가입
           </button>
-          <button
+          {/* <button
             className={styles.loginBtn}
             onClick={() => {
               movePage("post");
             }}
           >
             Enter
-          </button>
+          </button> */}
         </div>
       </div>
       <div className={styles.weatherImg}></div>

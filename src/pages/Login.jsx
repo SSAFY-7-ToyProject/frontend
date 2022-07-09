@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { logIn } from "../store/authSlice.js";
@@ -19,6 +19,8 @@ export default function Login() {
         return setEmail(value);
       case "password":
         return setPassword(value);
+      default:
+        return;
     }
   };
 

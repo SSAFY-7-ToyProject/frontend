@@ -5,12 +5,26 @@
   font-weight: normal;
   font-style: normal;
 }
+.edit_btn {
+  border: 0;
+  margin: 0.2em;
+  background-color: rgb(252, 252, 252);
+  width: 3em;
+  height: 2em;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
+  color: #787878;
+}
+
 .postList {
   display: flex;
   justify-content: center;
-  width: 65%;
-  height: 100%;
+  width: 60%;
+  height: 95%;
   overflow-y: scroll;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  margin-bottom: 1em;
 }
 .posts {
   width: 70%;
@@ -120,6 +134,8 @@
   font-size: large;
   padding: 0.5em;
   background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  border: 1px solid rgb(230, 230, 230);
 }
 .edit_text {
   text-align: center;
@@ -128,6 +144,8 @@
   height: 40%;
   padding: 0.6em;
   background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  border: 1px solid rgb(230, 230, 230);
 }
 .btn {
   display: flex;

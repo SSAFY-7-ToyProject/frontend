@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import EditPostForm from "./EditPostForm";
 import PostContent from "./PostContent";
 import styles from "../css/post.module.css";
@@ -14,15 +14,7 @@ import {
 } from "../../store/postSlice.js";
 import { getUid } from "../../store/authSlice.js";
 export default function Post({ post, isWrite }) {
-  const {
-    id,
-    weather,
-    secret,
-    title,
-    backgroundColor,
-    content: text,
-    uid: userId,
-  } = post;
+  const { id, weather, backgroundColor, uid: userId } = post;
   const [selectedWeather, setSelectedWeather] = useState(weather);
   const [editing, setEditing] = useState(false);
   const [bgColor, setBgColor] = useState({ first: "#7bb6c4 ", second: "#fff" });
@@ -37,7 +29,7 @@ export default function Post({ post, isWrite }) {
     if (isWrite) {
       setEditing(true);
     }
-  }, []);
+  }, [backgroundColor, isWrite]);
   const onUpdate = (title, content, secret) => {
     const form = {
       id,
@@ -85,17 +77,21 @@ export default function Post({ post, isWrite }) {
             <div className={styles.buttons}>
               {isOwner ? (
                 <div className={styles.buttonOwner}>
-                  <button onClick={() => setEditing(true)}>수정 ✎</button>
-                  <button onClick={onDelete}>삭제 x </button>
+                  <button
+                    onClick={() => setEditing(true)}
+                    className={styles.edit_btn}
+                  >
+                    ✎
+                  </button>
+                  <button onClick={onDelete} className={styles.edit_btn}>
+                    x
+                  </button>
                 </div>
               ) : (
                 <div></div>
               )}
-              <button
-                onClick={() => navigate(-1)}
-                className={styles.buttonClose}
-              >
-                X
+              <button onClick={() => navigate(-1)} className={styles.edit_btn}>
+                닫기
               </button>
             </div>
 

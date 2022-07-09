@@ -10,7 +10,7 @@ export default function EditPostForm({
   onUpdate,
   children,
 }) {
-  const { content: text, title, weather, secret, backgroundColor } = post;
+  const { content: text, title, secret } = post;
   console.log(post);
   const [DiaryTitle, setTitle] = useState(title);
   const [content, setContent] = useState(text);
@@ -27,6 +27,8 @@ export default function EditPostForm({
         return setContent(value);
       case "secret":
         return value === "secret" ? setSecret(true) : setSecret(false);
+      default:
+        return;
     }
   };
 
@@ -78,7 +80,7 @@ export default function EditPostForm({
             공개글
           </div>
 
-          <button onClick={onSubmit} className={styles.edit_button}>
+          <button onClick={onSubmit} className={styles.edit_btn}>
             완료
           </button>
         </div>

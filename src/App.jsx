@@ -1,12 +1,7 @@
-import { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { PrivateRoute, privateRoute, PublicRoute } from "./util/CustomRouter";
+import { PrivateRoute } from "./util/CustomRouter";
 import Header from "./components/Header";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
@@ -18,7 +13,6 @@ import SinglePostPage from "./pages/SinglePostPage";
 import MyDiary from "./pages/MyDiary";
 import { useSelector } from "react-redux";
 import { getUid } from "./store/authSlice.js";
-import { selectAllPosts } from "./store/postSlice";
 function App() {
   const [appClassName, setAppClassName] = useState("app");
   const userid = useSelector(getUid);
